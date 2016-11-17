@@ -1,30 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:aop="http://www.springframework.org/schema/aop"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="
-       		http://www.springframework.org/schema/beans 
-       		http://www.springframework.org/schema/beans/spring-beans.xsd
-       		http://www.springframework.org/schema/util 
-       		http://www.springframework.org/schema/util/spring-util.xsd
-       		http://www.springframework.org/schema/context
-        	http://www.springframework.org/schema/context/spring-context.xsd">
-    <!-- 定义授权缓存管理器 -->
-	<bean id="rsShiroCacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+	<!-- 定义授权缓存管理器 -->
+	<bean id="shiroCacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
 		<property name="cacheManager" >
 			<bean class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
-				<property name="configLocation" value="classpath:config/cache/ehcache-shiro-rs.xml" />
+				<property name="configLocation" value="classpath:config/cache/ehcache-shiro.xml" />
 			</bean>
 		</property>
 	</bean>
 	<!-- 凭证匹配器 -->
     <bean id="rsCredentialsMatcher" class="cn.bx.system.security.SysHashedCredentialsMatcher">
-        <constructor-arg ref="rsShiroCacheManager"/>
+        <constructor-arg ref="shiroCacheManager"/>
         <property name="hashAlgorithmName" value="SHA-1"/>
         <property name="hashIterations" value="1024"/>
         <property name="storedCredentialsHexEncoded" value="true"/>
     </bean>
+    
     <!-- Realm -->
     <bean id="rsRealm" class="cn.bx.system.security.RsAuthRealm">
         <property name="credentialsMatcher" ref="rsCredentialsMatcher"/>
@@ -35,14 +33,14 @@
     <bean id="rsSecurityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
         <property name="realm" ref="rsRealm"/>
         <property name="sessionManager" ref="rsSessionManager" />
-		<property name="cacheManager" ref="rsShiroCacheManager" />
+		<property name="cacheManager" ref="shiroCacheManager" />
     </bean>
     
     <!-- SessionDAO -->
 	<bean id="rsSessionDAO" class="org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO">
 		<property name="activeSessionsCacheName" value="rs-activeSessionCache"/>
         <property name="sessionIdGenerator"><bean class="org.apache.shiro.session.mgt.eis.JavaUuidSessionIdGenerator"/></property>
-        <property name="cacheManager" ref="rsShiroCacheManager" />
+        <property name="cacheManager" ref="shiroCacheManager" />
 	</bean>
 
 	<!-- 会话管理器 -->
