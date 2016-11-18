@@ -16,7 +16,7 @@
 		</property>
 	</bean>
 	<!-- 凭证匹配器 -->
-    <bean id="rsCredentialsMatcher" class="cn.bx.system.security.SysHashedCredentialsMatcher">
+    <bean id="rsCredentialsMatcher" class="cn.bx.system.security.RsHashedCredentialsMatcher">
         <constructor-arg ref="shiroCacheManager"/>
         <property name="hashAlgorithmName" value="SHA-1"/>
         <property name="hashIterations" value="1024"/>
@@ -60,7 +60,6 @@
         </property>
         <property name="filterChainDefinitions">
             <value>
-            	/login = anon
             	/logout = logout
                 /** = rsAuthc
             </value>

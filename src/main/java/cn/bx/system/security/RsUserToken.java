@@ -64,7 +64,7 @@ public class RsUserToken implements AuthenticationToken {
 
     @Override
     public Object getCredentials() {
-        return isLogin() ? username+password : clientToken;
+        return isLogin() ? password : clientToken;
     }
 }
 

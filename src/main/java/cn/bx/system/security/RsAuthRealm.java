@@ -11,8 +11,10 @@ import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.shiro.util.ByteSource;
 
 import cn.bx.bframe.common.security.Digests;
+import cn.bx.bframe.common.security.PasswordUtil;
 import cn.bx.system.entity.User;
 import cn.bx.system.service.SystemService;
 import cn.bx.system.utils.UserUtils;
@@ -41,7 +43,8 @@ public class RsAuthRealm extends AuthorizingRealm {
         if(uToken.isLogin()){
         	User user = systemService.findUserByLoginName(username);
         	if(user == null || user.getPassword() == null) throw new AuthenticationException();
-        	return new SimpleAuthenticationInfo(user,user.getPassword(),getName());
+        	return new SimpleAuthenticationInfo(user,PasswordUtil.decryptPassword(user.getPassword()),
+                    ByteSource.Util.bytes(PasswordUtil.decryptSalt(user.getPassword())),getName());
         }else{
         	//从缓存中得到用户
         	User user = UserUtils.getUser();

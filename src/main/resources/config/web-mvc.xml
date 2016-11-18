@@ -54,5 +54,4 @@
         <!-- 默认的content type -->
         <property name="defaultContentType" value="application/json"/>
     </bean>
-
 </beans>
