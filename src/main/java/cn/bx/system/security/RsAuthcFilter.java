@@ -26,6 +26,10 @@ public class RsAuthcFilter extends AccessControlFilter {
     protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
     	//限定请求只能是HTTP
     	HttpServletRequest httpRequest = (HttpServletRequest)request;
+    	System.out.println(httpRequest.getMethod() + "," +  httpRequest.getRequestURL());
+    	System.out.println(httpRequest.getHeader("test"));
+    	((HttpServletResponse)response).setHeader("ssssr", "asdasdas");
+    	if("OPTIONS".equals(httpRequest.getMethod())) return true;
     	//客户端传入用户名,登录请求时
     	String username = request.getParameter(RsSysConstants.RS_PARAM_USERNAME);
     	//客户端传入密码,登录请求时
