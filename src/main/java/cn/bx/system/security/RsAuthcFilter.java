@@ -13,6 +13,8 @@ import org.apache.shiro.authc.ExcessiveAttemptsException;
 import org.apache.shiro.authc.ExpiredCredentialsException;
 import org.apache.shiro.web.filter.AccessControlFilter;
 
+import cn.bx.bframe.entity.DataMessage;
+import cn.bx.bframe.json.JsonMapper;
 import cn.bx.system.utils.RsSysConstants;
 
 
@@ -26,9 +28,6 @@ public class RsAuthcFilter extends AccessControlFilter {
     protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
     	//限定请求只能是HTTP
     	HttpServletRequest httpRequest = (HttpServletRequest)request;
-    	System.out.println(httpRequest.getMethod() + "," +  httpRequest.getRequestURL());
-    	System.out.println(httpRequest.getHeader("test"));
-    	((HttpServletResponse)response).setHeader("ssssr", "asdasdas");
     	if("OPTIONS".equals(httpRequest.getMethod())) return true;
     	//客户端传入用户名,登录请求时
     	String username = request.getParameter(RsSysConstants.RS_PARAM_USERNAME);
@@ -52,7 +51,7 @@ public class RsAuthcFilter extends AccessControlFilter {
     	}
     	else{
     		onRequestFail(response,"未授权访问");
-            return false;
+            //return false;
     	}
     	token.setRemoteIP(getRemoteAddr((HttpServletRequest)request));
         try {
@@ -61,17 +60,18 @@ public class RsAuthcFilter extends AccessControlFilter {
             //((HttpServletResponse)response).setHeader(Constants.RS_RESP_TOKEN, ShiroCacheUtils.getToken(username));
         }catch(ExcessiveAttemptsException eae){
         	onRequestFail(response,"访问次数超限");
-            return false;
+        	//return false;
         }catch(ExpiredCredentialsException ece){
         	onRequestFail(response,"会话过期");
-            return false;
+            //return false;
         }catch(AuthenticationException ace){
+        	ace.printStackTrace();
         	onRequestFail(response,"授权验证失败");
-            return false;
+            //return false;
         }catch (Exception e) {
             e.printStackTrace();
             onRequestFail(response,"授权验证异常");
-            return false;
+            //return false;
         }
         return true;
     }
@@ -79,11 +79,11 @@ public class RsAuthcFilter extends AccessControlFilter {
     //验证失败默认返回401状态码,目前使用json格式返回,后续可以考虑配置的方式返回不同格式错误
     private void onRequestFail(ServletResponse response,String msg) throws IOException {
         HttpServletResponse httpResponse = (HttpServletResponse) response;
-        httpResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, msg);
-        /*httpResponse.reset();
+        //httpResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, msg);
+        httpResponse.reset();
         httpResponse.setContentType("application/json");
         httpResponse.setCharacterEncoding("utf-8");
-        httpResponse.getWriter().print("{\"code\":"+HttpServletResponse.SC_UNAUTHORIZED+",\"message:\":\""+msg+"\"}");*/
+        httpResponse.getWriter().print(JsonMapper.toJsonString(new DataMessage(msg,null,HttpServletResponse.SC_UNAUTHORIZED)));
     }
     
     private String getRemoteAddr(HttpServletRequest request){

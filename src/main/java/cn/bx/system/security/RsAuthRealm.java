@@ -47,7 +47,7 @@ public class RsAuthRealm extends AuthorizingRealm {
                     ByteSource.Util.bytes(PasswordUtil.decryptSalt(user.getPassword())),getName());
         }else{
         	//从缓存中得到用户
-        	User user = UserUtils.getUser();
+        	User user = UserUtils.getUserByLoginName(username);
         	//令牌过期,按缓存过期时间设置
         	if(user == null || user.getRsToken() == null) throw new ExpiredCredentialsException();
         	String key = user.getRsToken();//缓存密钥（和客户端的一样）

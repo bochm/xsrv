@@ -58,9 +58,9 @@
    	<mvc:cors>
 	    <mvc:mapping path="/**"
 	        allowed-origins="http://localhost, http://localhost1"
-	        allowed-methods="GET,POST" 
-	        allowed-headers="rp_login, rp_token, header3"
-	        exposed-headers="ssssr11, header2" 
+	        allowed-methods="GET,POST,HEAD" 
+	        allowed-headers="rp_login, rp_token, loginname,content-type"
+	        exposed-headers="rp_token"
 	        allow-credentials="true"
 	        max-age="1800"/>
     </mvc:cors>
