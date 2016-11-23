@@ -5,22 +5,23 @@
 	<defaultCache maxEntriesLocalHeap="2000" eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="0" overflowToDisk="true" />
     <!-- 登录记录缓存 锁定10分钟 -->
     <cache name="sys-passwordRetryCache"
-           maxEntriesLocalHeap="2000"
-           eternal="false"
+    	   maxEntriesLocalHeap="2000" eternal="false"
            timeToIdleSeconds="3600"
            timeToLiveSeconds="0"
-           overflowToDisk="false"
-           statistics="true">
+           overflowToDisk="false">
     </cache>
 	<!-- 授权缓存 -->
-    <cache name="sys-authCache" maxEntriesLocalHeap="100" eternal="true"></cache>
+    <cache name="sys-authCache" maxEntriesLocalHeap="2000" eternal="false" timeToIdleSeconds="3600" overflowToDisk="true" timeToLiveSeconds="7200">
+    </cache>
 	<!-- 用户缓存 -->
-    <cache name="sys-userCache" maxEntriesLocalHeap="100" eternal="true"></cache>
+    <cache name="sys-userCache" maxEntriesLocalHeap="2000" eternal="false" timeToIdleSeconds="3600" overflowToDisk="true" timeToLiveSeconds="7200">
+    </cache>
 	<!-- 活动会话缓存  不过期 vm重启时会写入磁盘 每隔600秒清理磁盘 -->
-    <cache name="sys-activeSessionCache"
+	<!-- 服务端无状态则不适用会话缓存 -->
+    <!-- <cache name="sys-activeSessionCache"
            maxEntriesLocalHeap="10000" overflowToDisk="true"
            eternal="true" timeToLiveSeconds="0" timeToIdleSeconds="0"
            diskPersistent="true" diskExpiryThreadIntervalSeconds="600">
-    </cache>
+    </cache> -->
 
 </ehcache>

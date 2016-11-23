@@ -28,26 +28,27 @@
         <property name="credentialsMatcher" ref="rsCredentialsMatcher"/>
         <property name="cachingEnabled" value="false"/>
     </bean>
-   
+   <!-- Subject工厂 -->
+    <bean id="subjectFactory" class="cn.bx.system.security.RsDefaultSubjectFactory"/>
     <!-- 安全管理器 -->
     <bean id="rsSecurityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
         <property name="realm" ref="rsRealm"/>
+        <property name="subjectDAO.sessionStorageEvaluator.sessionStorageEnabled" value="false"/>
+        <property name="subjectFactory" ref="subjectFactory"/>
         <property name="sessionManager" ref="rsSessionManager" />
 		<property name="cacheManager" ref="shiroCacheManager" />
     </bean>
-    
-    <!-- SessionDAO -->
-	<bean id="rsSessionDAO" class="org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO">
-		<property name="activeSessionsCacheName" value="rs-activeSessionCache"/>
-        <property name="sessionIdGenerator"><bean class="org.apache.shiro.session.mgt.eis.JavaUuidSessionIdGenerator"/></property>
-        <property name="cacheManager" ref="shiroCacheManager" />
-	</bean>
 
 	<!-- 会话管理器 -->
-	<bean id="rsSessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
-		<property name="sessionDAO" ref="rsSessionDAO" />
-	</bean>
-	
+    <bean id="rsSessionManager" class="org.apache.shiro.session.mgt.DefaultSessionManager">
+        <property name="sessionValidationSchedulerEnabled" value="false"/>
+    </bean>
+	<!-- 相当于调用SecurityUtils.setSecurityManager(securityManager) -->
+    <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="staticMethod" value="org.apache.shiro.SecurityUtils.setSecurityManager"/>
+        <property name="arguments" ref="rsSecurityManager"/>
+    </bean>
+    
 	<bean id="rsAuthcFilter" class="cn.bx.system.security.RsAuthcFilter"/>
 
     <!-- Web过滤器 -->
