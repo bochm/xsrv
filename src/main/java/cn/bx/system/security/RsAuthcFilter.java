@@ -51,7 +51,7 @@ public class RsAuthcFilter extends AccessControlFilter {
     	}
     	else{
     		onRequestFail(response,"未授权访问");
-            //return false;
+            return false;
     	}
     	token.setRemoteIP(getRemoteAddr((HttpServletRequest)request));
         try {
@@ -59,19 +59,19 @@ public class RsAuthcFilter extends AccessControlFilter {
             getSubject(request, response).login(token);
             //((HttpServletResponse)response).setHeader(Constants.RS_RESP_TOKEN, ShiroCacheUtils.getToken(username));
         }catch(ExcessiveAttemptsException eae){
-        	onRequestFail(response,"访问次数超限");
-        	//return false;
+        	onRequestFail(response,"登录次数超限");
+        	return false;
         }catch(ExpiredCredentialsException ece){
         	onRequestFail(response,"会话过期");
-            //return false;
+            return false;
         }catch(AuthenticationException ace){
         	ace.printStackTrace();
         	onRequestFail(response,"授权验证失败");
-            //return false;
+            return false;
         }catch (Exception e) {
             e.printStackTrace();
             onRequestFail(response,"授权验证异常");
-            //return false;
+            return false;
         }
         return true;
     }
@@ -80,7 +80,11 @@ public class RsAuthcFilter extends AccessControlFilter {
     private void onRequestFail(ServletResponse response,String msg) throws IOException {
         HttpServletResponse httpResponse = (HttpServletResponse) response;
         //httpResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, msg);
+        
+        
         httpResponse.reset();
+        httpResponse.setHeader("Access-Control-Allow-Origin", "*");
+        httpResponse.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS");
         httpResponse.setContentType("application/json");
         httpResponse.setCharacterEncoding("utf-8");
         httpResponse.getWriter().print(JsonMapper.toJsonString(new DataMessage(msg,null,HttpServletResponse.SC_UNAUTHORIZED)));

@@ -52,6 +52,9 @@ public class RsAuthRealm extends AuthorizingRealm {
         	if(user == null || user.getRsToken() == null) throw new ExpiredCredentialsException();
         	String key = user.getRsToken();//缓存密钥（和客户端的一样）
         	//然后进行客户端消息摘要和服务器端消息摘要的匹配
+        	System.out.println("------"+generateToken(key,uToken));
+        	System.out.println("------"+uToken.getClientToken());
+        	System.out.println("------"+uToken.getRequestUrl());
             return new SimpleAuthenticationInfo(user,generateToken(key,uToken),getName());
         }
         

@@ -47,6 +47,7 @@
 	<filter-mapping>
 		<filter-name>rsShiroFilter</filter-name>
 		<url-pattern>/*</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
 	</filter-mapping>
 	<servlet>
 		<servlet-name>mvc</servlet-name>
