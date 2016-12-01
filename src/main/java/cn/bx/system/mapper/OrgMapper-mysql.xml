@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.bx.system.mapper.OrgMapper"> 
     <sql id="orgColumns">
-    	a.id,a.parent_id as "parent.id",a.parent_tree,a.name,a.type,a.addr,a.sort,b.id as "master.id",
-		b.name as "master.name",a.remarks,p.name as "parent.name",a.status
+    	a.id,a.parent_id as "parent.id",a.parent_tree,a.name,a.type,a.addr,a.sort,ifnull(b.id,'') as "master.id",
+		ifnull(b.name,'') as "master.name",a.remarks,p.name as "parent.name",a.status
     </sql>
     <sql id="orgJoins">
     	left join sys_user b on a.master_id = b.id

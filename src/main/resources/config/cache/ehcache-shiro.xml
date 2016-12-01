@@ -14,7 +14,7 @@
     <cache name="sys-authCache" maxEntriesLocalHeap="2000" eternal="false" timeToIdleSeconds="3600" overflowToDisk="true" timeToLiveSeconds="7200">
     </cache>
 	<!-- 用户缓存 -->
-    <cache name="sys-userCache" maxEntriesLocalHeap="2000" eternal="false" timeToIdleSeconds="30" overflowToDisk="true" timeToLiveSeconds="30">
+    <cache name="sys-userCache" maxEntriesLocalHeap="2000" eternal="false" timeToIdleSeconds="3600" overflowToDisk="true" timeToLiveSeconds="7200">
     </cache>
 	<!-- 活动会话缓存  不过期 vm重启时会写入磁盘 每隔600秒清理磁盘 -->
 	<!-- 服务端无状态则不适用会话缓存 -->
