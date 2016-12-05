@@ -1,5 +1,6 @@
 package cn.bx.system.security;
 
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.shiro.authc.AuthenticationInfo;
@@ -10,7 +11,6 @@ import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheManager;
 
 import cn.bx.bframe.common.security.PasswordUtil;
-import cn.bx.system.entity.User;
 import cn.bx.system.utils.UserUtils;
 
 public class RsHashedCredentialsMatcher extends HashedCredentialsMatcher {
@@ -21,7 +21,8 @@ public class RsHashedCredentialsMatcher extends HashedCredentialsMatcher {
         passwordRetryCache = cacheManager.getCache(UserUtils.PWD_RETRY_CACHE);
     }
 
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     public boolean doCredentialsMatch(AuthenticationToken token, AuthenticationInfo info) {
     	RsUserToken uToken = (RsUserToken) token;
     	boolean matches = false;
@@ -39,8 +40,8 @@ public class RsHashedCredentialsMatcher extends HashedCredentialsMatcher {
             if(matches) {
                 passwordRetryCache.remove(username);
                 //生成随机的16位salt并经过1024次 sha-1 hash迭代的token
-				User user = (User)info.getPrincipals().getPrimaryPrincipal();
-                user.setRsToken(PasswordUtil.entryptPassword(uToken.getPassword()));
+				Map<String,String> user = (Map<String,String>)info.getPrincipals().getPrimaryPrincipal();
+				UserUtils.setToken(user, PasswordUtil.entryptPassword(uToken.getPassword()));
                 UserUtils.putUserInCache(user);
             }
     	}else{

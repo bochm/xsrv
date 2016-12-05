@@ -1,5 +1,7 @@
 package cn.bx.system.security;
 
+import java.util.HashMap;
+
 import javax.annotation.Resource;
 
 import org.apache.shiro.authc.AuthenticationException;
@@ -15,7 +17,6 @@ import org.apache.shiro.util.ByteSource;
 
 import cn.bx.bframe.common.security.Digests;
 import cn.bx.bframe.common.security.PasswordUtil;
-import cn.bx.system.entity.User;
 import cn.bx.system.service.SystemService;
 import cn.bx.system.utils.UserUtils;
 
@@ -41,20 +42,17 @@ public class RsAuthRealm extends AuthorizingRealm {
         RsUserToken uToken = (RsUserToken) token;
         String username = uToken.getUsername();
         if(uToken.isLogin()){
-        	User user = systemService.findUserByLoginName(username);
-        	if(user == null || user.getPassword() == null) throw new AuthenticationException();
-        	return new SimpleAuthenticationInfo(user,PasswordUtil.decryptPassword(user.getPassword()),
-                    ByteSource.Util.bytes(PasswordUtil.decryptSalt(user.getPassword())),getName());
+        	HashMap<String,String> user = systemService.findUserByLoginName(username);
+        	if(user == null || UserUtils.getPassword(user) == null) throw new AuthenticationException();
+        	return new SimpleAuthenticationInfo(user,PasswordUtil.decryptPassword(UserUtils.getPassword(user)),
+                    ByteSource.Util.bytes(PasswordUtil.decryptSalt(UserUtils.getPassword(user))),getName());
         }else{
         	//从缓存中得到用户
-        	User user = UserUtils.getUserByLoginName(username);
+        	HashMap<String,String> user = UserUtils.getUserByLoginName(username);
         	//令牌过期,按缓存过期时间设置
-        	if(user == null || user.getRsToken() == null) throw new ExpiredCredentialsException();
-        	String key = user.getRsToken();//缓存密钥（和客户端的一样）
+        	if(user == null || UserUtils.getToken(user) == null) throw new ExpiredCredentialsException();
+        	String key = UserUtils.getToken(user);//缓存密钥（和客户端的一样）
         	//然后进行客户端消息摘要和服务器端消息摘要的匹配
-        	System.out.println("------"+generateToken(key,uToken));
-        	System.out.println("------"+uToken.getClientToken());
-        	System.out.println("------"+uToken.getRequestUrl());
             return new SimpleAuthenticationInfo(user,generateToken(key,uToken),getName());
         }
         

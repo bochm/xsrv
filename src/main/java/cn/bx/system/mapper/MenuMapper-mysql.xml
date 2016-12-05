@@ -55,4 +55,6 @@
 	<delete id="removeChildren">
 		delete from  sys_menu where locate(#{id}, parent_tree) > 0
 	</delete>
+	
+	
 </mapper>
