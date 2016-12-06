@@ -19,7 +19,7 @@ public class SystemService extends SimpleService<HashMap<String,String>>{
 	public HashMap<String,String> findUserByLoginName(String loginname){
 		return this.selectOne("findUserByLoginName", loginname);
 	}
-	public List<HashMap<String,String>> listMenuByRules(String[] ruleIds){
-		return this.selectList("listMenuByRules", ruleIds);
+	public List<HashMap<String,String>> listMenuByUser(String userId){
+		return this.selectList("listMenuByUser", userId);
 	}
 }

@@ -47,7 +47,7 @@
 			and c.name = #{type}
 			<if test="type == '部门'">
 				<where>
-				locate(#{company_id}, a.parent_tree) > 0
+				a.parent_id = #{company_id}
 				</where>
 			</if>
 		</if>

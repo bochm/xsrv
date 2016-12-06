@@ -11,11 +11,11 @@
 		left join sys_org d on a.dept_id = d.id
 		where a.login_name = #{loginname}
 	</select>
-	<select id="listMenuByRules" resultType="hashmap">
-		select a.id,a.parent_id as "parent.id",a.name,a.target,a.icon,a.type,a.permission from sys_menu a
+	<select id="listMenuByUser" resultType="hashmap">
+		select distinct a.id,a.parent_id,a.name,a.target,a.icon,a.type,a.permission from sys_menu a
 		join sys_role_menu b on a.id = b.menu_id
-		where b.role_id in 
-		<foreach collection="array" item="id" open="(" close=")" separator=",">#{id}</foreach>
-		order by a.parent_tree
+		join sys_role_user c on b.role_id = c.role_id and c.user_id = #{userId}
+		where a.status = '1' and a.type = '0'
+		order by a.parent_tree,a.sort
 	</select>
 </mapper>
