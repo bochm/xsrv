@@ -24,4 +24,9 @@ public class SystemController {
 	public List<HashMap<String,String>> queryMenuList(@PathVariable("userId") String userId){
 		return service.listMenuByUser(userId);
 	}
+	@RequestMapping(value="/system/permissions/{userId}/{pagePermission}")
+	public List<String> queryPermissions(@PathVariable("userId") String userId,
+			@PathVariable("pagePermission") String pagePermission){
+		return service.queryPermissions(userId,pagePermission);
+	}
 }

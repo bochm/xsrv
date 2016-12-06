@@ -18,4 +18,10 @@
 		where a.status = '1' and a.type = '0'
 		order by a.parent_tree,a.sort
 	</select>
+	<select id="queryPermissions" resultType="hashmap">
+		select a.permission from sys_menu a
+		join sys_role_menu b on a.id = b.menu_id
+		join sys_role_user c on b.role_id = c.role_id and c.user_id = #{userId}
+		where a.status = '1' and a.type = '1' and locate(#{permission}, a.permission) = 0
+	</select>
 </mapper>
