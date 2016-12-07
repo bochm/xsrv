@@ -22,6 +22,17 @@
 		select a.permission from sys_menu a
 		join sys_role_menu b on a.id = b.menu_id
 		join sys_role_user c on b.role_id = c.role_id and c.user_id = #{userId}
-		where a.status = '1' and a.type = '1' and locate(#{permission}, a.permission) = 0
+		where a.status = '1' and a.type = '1' and locate(#{permission}, a.permission) > 0
+	</select>
+	<select id="queryRolesByUserId" resultType="hashmap">
+		select a.enname from sys_role a
+		join sys_role_user c on a.id = c.role_id and c.user_id = #{userId}
+		where a.status = '1'
+	</select>
+	<select id="queryPermissionsByUserId" resultType="hashmap">
+		select a.permission from sys_menu a
+		join sys_role_menu b on a.id = b.menu_id
+		join sys_role_user c on b.role_id = c.role_id and c.user_id = #{userId}
+		where a.status = '1' and a.type = '1'
 	</select>
 </mapper>

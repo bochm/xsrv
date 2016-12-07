@@ -1,6 +1,8 @@
 package cn.bx.system.security;
 
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.Resource;
 
@@ -28,13 +30,26 @@ public class RsAuthRealm extends AuthorizingRealm {
         //仅支持RsUserToken类型的Token
         return token instanceof RsUserToken;
     }
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         //根据用户名查找角色，请根据需求实现
-        String username = (String) principals.getPrimaryPrincipal();
-        System.out.println("username="+username);
+    	Map<String,String> user = (Map<String,String>)principals.getPrimaryPrincipal();
+    	String userId = UserUtils.getUserId(user);
+    	System.out.println("AOP检测权限============================"+userId);
+        Set<String> roles = UserUtils.getRoleFromCache();
+        Set<String> permissions = UserUtils.getPermissionFromCache();
+        if(roles == null){
+        	roles = systemService.queryRolesByUserId(userId);
+        	UserUtils.putRoleInCache(userId, roles);
+        }
+        if(permissions == null){
+        	permissions = systemService.queryPermissionsByUserId(userId);
+        	UserUtils.putPermissionInCache(UserUtils.getUserId(user), permissions);
+        }
         SimpleAuthorizationInfo authorizationInfo =  new SimpleAuthorizationInfo();
-        authorizationInfo.addRole("rs-service");
+        authorizationInfo.addRoles(roles);
+        authorizationInfo.addStringPermissions(permissions);
         return authorizationInfo;
     }
     @Override

@@ -21,6 +21,11 @@
 	<select id="listUser" resultType="cn.bx.system.entity.User">
 		select <include refid="userColumns"/> from sys_user a
 		<include refid="orgJoins"/>
+		<where>
+			<if test="company_id != null and company_id != ''">
+			a.company_id = #{company_id}
+			</if>
+		</where>
 	</select>
 	<insert id="addUser">
 		insert into sys_user(id, company_id, dept_id, login_name, password, no, name, email, phone, 

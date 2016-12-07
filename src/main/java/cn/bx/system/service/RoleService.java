@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import cn.bx.bframe.entity.DataMessage;
 import cn.bx.bframe.service.SimpleService;
 import cn.bx.system.entity.Dict;
+import cn.bx.system.utils.UserUtils;
 
 @Service("RoleService")
 @Transactional(rollbackFor=Exception.class)
@@ -24,7 +25,10 @@ public class RoleService extends SimpleService<Dict>{
 			para.put("menuId", mid);
 			paras.add(para);
 		}
-		if(this.executeBatch("addRoleMenu", paras)>0) return DataMessage.success("授权成功", roleId);
+		if(this.executeBatch("addRoleMenu", paras)>0){
+			UserUtils.clearPermissionCache();
+			return DataMessage.success("授权成功", roleId);
+		}
 		else return DataMessage.error("授权失败", roleId);
 	}
 	public DataMessage assignRole(String roleId,String[] userIds){
@@ -36,7 +40,10 @@ public class RoleService extends SimpleService<Dict>{
 			para.put("userId", uid);
 			paras.add(para);
 		}
-		if(this.executeBatch("addRoleUser", paras)>0) return DataMessage.success("分配成功", roleId);
+		if(this.executeBatch("addRoleUser", paras)>0) {
+			UserUtils.clearRuleCache();
+			return DataMessage.success("分配成功", roleId);
+		}
 		else return DataMessage.error("分配失败", roleId);
 	}
 }
