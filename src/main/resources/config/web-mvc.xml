@@ -55,6 +55,11 @@
         <!-- 默认的content type -->
         <property name="defaultContentType" value="application/json"/>
     </bean>
+    
+    <bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize" value="1024000000"></property>
+	</bean>
     <!-- 跨域访问  allowed-headers设置请求头中必须有的 -->
    	<mvc:cors>
 	    <mvc:mapping path="/**"
