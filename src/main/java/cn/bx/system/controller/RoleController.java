@@ -1,6 +1,5 @@
 package cn.bx.system.controller;
 
-import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import cn.bx.bframe.entity.DataMessage;
-import cn.bx.system.entity.Dict;
 import cn.bx.system.entity.Role;
 import cn.bx.system.service.RoleService;
 
@@ -25,8 +23,8 @@ public class RoleController {
 	RoleService service;
 	@RequestMapping(value={"list",""})
 	@RequiresRoles(value={"role_admin","role_leader"},logical=Logical.AND)
-	public @ResponseBody List<Dict> listRole(@RequestBody Map<String,String> param){
-		return service.selectList("list", param);
+	public DataMessage listRole(@RequestBody Map<String,String> param){
+		return DataMessage.data(service.selectList("list", param));
 	}
 	@RequestMapping(value="add")
 	@RequiresRoles("role_admin")

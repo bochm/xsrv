@@ -1,6 +1,5 @@
 package cn.bx.system.controller;
 
-import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -8,16 +7,16 @@ import javax.annotation.Resource;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import cn.bx.bframe.entity.DataMessage;
 import cn.bx.system.entity.Org;
 import cn.bx.system.service.OrgService;
 
-@Controller
+@RestController
 @RequestMapping("system/org")
 public class OrgController {
 	
@@ -25,9 +24,8 @@ public class OrgController {
 	OrgService service;
 	@RequestMapping(value={"list",""})
 	@RequiresRoles(value={"role_admin","role_leader","role_dept"},logical=Logical.OR)
-	public @ResponseBody List<Org> listOrg(@RequestBody Map<String,String> param){
-		List<Org> list =  service.list(param);
-		return list;
+	public DataMessage listOrg(@RequestBody Map<String,String> param){
+		return DataMessage.data(service.list(param));
 	}
 	@RequestMapping(value="add")
 	@RequiresPermissions("sys:org:add")

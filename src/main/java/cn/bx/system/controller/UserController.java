@@ -1,6 +1,5 @@
 package cn.bx.system.controller;
 
-import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -28,15 +27,15 @@ public class UserController {
 	UserService userService;
 	
 	@RequestMapping("checkLoginName")
-	public boolean checkLoginName(@RequestBody Map<String,Object> param){
+	public DataMessage checkLoginName(@RequestBody Map<String,Object> param){
 		User u = userService.selectOne("checkUserExists", param.get("param"));
-		return u == null || u.getId() == null;
+		return DataMessage.data(u == null || u.getId() == null);
 	}
 	@RequestMapping(value={"list",""})
 	@RequiresRoles(value={"role_admin","role_leader","role_dept"},logical=Logical.OR)
-	public List<User> listUser(@RequestBody Map<String,String> param){
+	public DataMessage listUser(@RequestBody Map<String,String> param){
 		System.out.println("list user");
-		return userService.selectList("listUser", param);
+		return DataMessage.data(userService.selectList("listUser", param));
 	}
 	@RequestMapping(value="add")
 	@RequiresPermissions("sys:user:add")

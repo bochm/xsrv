@@ -1,6 +1,5 @@
 package cn.bx.system.controller;
 
-import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -8,16 +7,15 @@ import javax.annotation.Resource;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import cn.bx.bframe.entity.DataMessage;
 import cn.bx.system.entity.Menu;
 import cn.bx.system.service.MenuService;
 
-@Controller
+@RestController
 @RequestMapping("system/menu")
 public class MenuController {
 	
@@ -25,13 +23,12 @@ public class MenuController {
 	MenuService menuService;
 	@RequestMapping(value={"list",""})
 	@RequiresRoles(value={"role_admin","role_leader","role_dept"},logical=Logical.OR)
-	public @ResponseBody List<Menu> listMenu(@RequestBody Map<String,String> param){
-		List<Menu> list =  menuService.list(param);
-		return list;
+	public DataMessage listMenu(@RequestBody Map<String,String> param){
+		return DataMessage.data(menuService.list(param));
 	}
 	@RequestMapping(value="add")
 	@RequiresPermissions("sys:menu:add")
-	public @ResponseBody DataMessage addMenu(Menu menu){
+	public DataMessage addMenu(Menu menu){
 		if(menuService.add(menu) > 0)
 			return DataMessage.success("菜单保存成功", menu);
 		else
@@ -39,7 +36,7 @@ public class MenuController {
 	}
 	@RequestMapping(value="save")
 	@RequiresPermissions("sys:menu:save")
-	public @ResponseBody DataMessage saveMenu(Menu menu){
+	public DataMessage saveMenu(Menu menu){
 		if(menuService.save(menu) == 1)
 			return DataMessage.success("菜单保存成功", menu);
 		else
@@ -47,7 +44,7 @@ public class MenuController {
 	}
 	@RequestMapping(value="delete")
 	@RequiresPermissions("sys:menu:delete")
-	public @ResponseBody DataMessage deleteMenu(@RequestBody String[] ids){
+	public DataMessage deleteMenu(@RequestBody String[] ids){
 		if(menuService.removeListWithChildren(ids) > 0)
 			return DataMessage.success("菜单删除成功", ids);
 		else

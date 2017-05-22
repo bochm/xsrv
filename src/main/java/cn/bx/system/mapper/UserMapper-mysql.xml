@@ -21,7 +21,7 @@
 	<select id="listUser" resultType="cn.bx.system.entity.User">
 		select <include refid="userColumns"/> from sys_user a
 		<include refid="orgJoins"/>
-		<trim prefix="where" prefixOverrides="and">
+		<!-- <trim prefix="where" prefixOverrides="and">
 			<if test="company_id != null and company_id != ''">
 			a.company_id = #{company_id}
 			</if>
@@ -34,7 +34,7 @@
 			<if test="tel != null and tel != ''">
 			and locate(#{tel},a.mobile) > 0 
 			</if>
-		</trim>
+		</trim> -->
 	</select>
 	<insert id="addUser">
 		insert into sys_user(id, company_id, dept_id, login_name, password, no, name, email, phone, 

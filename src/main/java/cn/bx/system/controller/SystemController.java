@@ -18,15 +18,15 @@ public class SystemController {
 	SystemService service;
 	@RequestMapping(value="/login")
 	public DataMessage login(HttpServletRequest request){
-		return DataMessage.success("",UserUtils.getUserByLoginName(request.getHeader(RsSysConstants.RS_PARAM_USERNAME)));
+		return DataMessage.data(UserUtils.getUserByLoginName(request.getHeader(RsSysConstants.RS_PARAM_USERNAME)));
 	}
 	@RequestMapping(value="/system/index/menu/{userId}")
 	public DataMessage queryMenuList(@PathVariable("userId") String userId){
-		return DataMessage.success("",service.listMenuByUser(userId));
+		return DataMessage.data(service.listMenuByUser(userId));
 	}
 	@RequestMapping(value="/system/permissions/{userId}/{pagePermission}")
 	public DataMessage queryPermissions(@PathVariable("userId") String userId,
 			@PathVariable("pagePermission") String pagePermission){
-		return DataMessage.success("",service.queryPermissions(userId,pagePermission));
+		return DataMessage.data(service.queryPermissions(userId,pagePermission));
 	}
 }
