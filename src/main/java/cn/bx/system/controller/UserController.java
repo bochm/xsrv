@@ -41,7 +41,8 @@ public class UserController {
 	@RequestMapping(value="add")
 	@RequiresPermissions("sys:user:add")
 	public DataMessage addUser(User user,@RequestParam(value="ph",required=false) MultipartFile file){
-		//System.out.println(file.getOriginalFilename()+"#########");
+		if(file != null)
+			System.out.println(file.getOriginalFilename()+"#########");
 		
 		user.setPassword(PasswordUtil.entryptPassword(user.getPassword()));
 		if(userService.insert("addUser", user) > 0)
