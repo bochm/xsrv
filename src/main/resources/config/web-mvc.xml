@@ -65,7 +65,7 @@
 	    <mvc:mapping path="/**"
 	        allowed-origins="http://localhost,http://10.20.11.95"
 	        allowed-methods="GET,POST,HEAD" 
-	        allowed-headers="rp_login, rp_token, loginname,content-type"
+	        allowed-headers="rp_login,rp_token,loginname,password,content-type"
 	        exposed-headers="rp_token"
 	        allow-credentials="true"
 	        max-age="1800"/>

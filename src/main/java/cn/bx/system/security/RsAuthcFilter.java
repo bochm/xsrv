@@ -30,9 +30,9 @@ public class RsAuthcFilter extends AccessControlFilter {
     	HttpServletRequest httpRequest = (HttpServletRequest)request;
     	if("OPTIONS".equals(httpRequest.getMethod())) return true;
     	//客户端传入用户名,登录请求时
-    	String username = request.getParameter(RsSysConstants.RS_PARAM_USERNAME);
+    	String username = httpRequest.getHeader(RsSysConstants.RS_PARAM_USERNAME);
     	//客户端传入密码,登录请求时
-    	String password = request.getParameter(RsSysConstants.RS_PARAM_PASSWORD);
+    	String password = httpRequest.getHeader(RsSysConstants.RS_PARAM_PASSWORD);
     	//客户端传入的令牌
     	String cToken = httpRequest.getHeader(RsSysConstants.RS_PARAM_TOKEN);
     	//客户端请求URL
@@ -47,7 +47,7 @@ public class RsAuthcFilter extends AccessControlFilter {
     		token.setRequestUrl(requestUrl);
     	}//客户端提交的密码,登录请求
     	else if(!StringUtils.isEmpty(password) && !StringUtils.isEmpty(username)){
-    		token = new RsUserToken(username,request.getParameter(RsSysConstants.RS_PARAM_PASSWORD));
+    		token = new RsUserToken(username,httpRequest.getHeader(RsSysConstants.RS_PARAM_PASSWORD));
     	}
     	else{
     		onRequestFail(response,"未授权访问");
