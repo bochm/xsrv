@@ -51,7 +51,7 @@ public class UserController {
 	}
 	@RequestMapping(value="save")
 	@RequiresPermissions("sys:user:save")
-	public  DataMessage saveUser(User user,@RequestParam(value="ph",required=false) MultipartFile file){
+	public  DataMessage saveUser(User user){
 		if(!StringUtils.isEmpty(user.getPassword()))
 			user.setPassword(PasswordUtil.entryptPassword(user.getPassword()));
 		if(userService.update("saveUser", user) > 0)
