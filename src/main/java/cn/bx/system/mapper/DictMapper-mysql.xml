@@ -40,14 +40,14 @@
 		from sys_dict a
 	</select>
 	<insert id="add">
-		insert into sys_dict(id, value, name, type, type_desc, sort, create_by, create_date, update_by, 
-		update_date, remarks) 
-		values (#{id}, #{value},#{name},#{type},#{typeDesc},#{sort}, #{createBy}, #{createDate},#{updateBy},
-		#{updateDate}, #{remarks})
+		insert into sys_dict(id, value, name, type, type_desc, sort, create_by, create_time, update_by, 
+		update_time, remarks) 
+		values (#{id}, #{value},#{name},#{type},#{typeDesc},#{sort}, #{createBy}, cast(current_timestamp as SIGNED),#{updateBy},
+		cast(current_timestamp as SIGNED), #{remarks})
 	</insert>
 	<update id="save">
 		update sys_dict set value = #{value}, name=#{name},type=#{type},type_desc=#{typeDesc},
-		sort=#{sort},update_by=#{updateBy},update_date=#{updateDate},remarks = #{remarks}
+		sort=#{sort},update_by=#{updateBy},update_time=cast(current_timestamp as SIGNED),remarks = #{remarks}
 		where id = #{id}
 	</update>
 	

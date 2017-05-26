@@ -4,7 +4,7 @@
 <mapper namespace="cn.bx.system.mapper.SystemMapper"> 
     <!-- 根据登录名查询用户 -->
 	<select id="findUserByLoginName" resultType="hashmap">
-		select a.id,a.company_id,a.dept_id,c.name as "company_name",d.name as "dept_name",
+		select cast(a.id as char) as id,a.company_id,a.dept_id,c.name as "company_name",d.name as "dept_name",
     	a.login_name as "loginname",a.password,a.no,a.name,a.user_type,a.login_ip,
     	a.remarks,a.photo,a.status from sys_user a
 		left join sys_org c on a.company_id = c.id
