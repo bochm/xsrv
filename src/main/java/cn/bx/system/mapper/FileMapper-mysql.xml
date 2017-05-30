@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.bx.system.mapper.FileMapper">
+	<select id="listFile" resultType="hashmap">
+		select id, ownerid, type, name, path from sys_files
+		where ownerid = #{ownerid} and type = #{type}
+	</select>
+	<select id="getFile" resultType="hashmap">
+		select id, ownerid, type, name, path from sys_files
+		where id = #{id}
+	</select>
+	<insert id="addFile">
+		insert into sys_files(id, ownerid, type, name, path) 
+		values (#{id}, #{ownerid},#{type} ,#{name}, #{path})
+	</insert>
+	
+	<delete id="dropFile">
+		delete from sys_files where id = #{id}
+	</delete>
+</mapper>
