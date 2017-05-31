@@ -10,9 +10,7 @@ import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 import cn.bx.bframe.common.security.PasswordUtil;
 import cn.bx.bframe.entity.DataMessage;
@@ -37,12 +35,21 @@ public class UserController {
 		System.out.println("list user");
 		return DataMessage.data(userService.selectList("listUser", param));
 	}
-	@RequestMapping(value="add")
+	/*@RequestMapping(value="add")
 	@RequiresPermissions("sys:user:add")
 	public DataMessage addUser(User user,@RequestParam(value="ph",required=false) MultipartFile file){
 		if(file != null)
 			System.out.println(file.getOriginalFilename()+"#########");
 		
+		user.setPassword(PasswordUtil.entryptPassword(user.getPassword()));
+		if(userService.insert("addUser", user) > 0)
+			return DataMessage.success("保存成功", user);
+		else
+			return DataMessage.error("保存失败", user);
+	}*/
+	@RequestMapping(value="add")
+	@RequiresPermissions("sys:user:add")
+	public DataMessage addUser(User user){			
 		user.setPassword(PasswordUtil.entryptPassword(user.getPassword()));
 		if(userService.insert("addUser", user) > 0)
 			return DataMessage.success("保存成功", user);
