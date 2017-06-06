@@ -34,6 +34,14 @@
 			</if>
 		</trim>
 	</select>
+	<select id="listStudent" resultType="cn.bx.demo.entity.Student">
+		select id,class_id,no,name,age from test_student
+		<trim prefix="where" prefixOverrides="and">
+			<if test="classId != null and classId != ''">
+			class_id = #{classId}
+			</if>
+		</trim>
+	</select>
 	<insert id="addUser">
 		insert into sys_user(id, company_id, dept_id, login_name, password, no, name, email, phone, 
 		mobile, user_type, create_by, create_date, update_by, update_date, remarks, login_flag, photo,status) 
