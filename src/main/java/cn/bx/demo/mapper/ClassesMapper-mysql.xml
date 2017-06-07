@@ -42,27 +42,37 @@
 			</if>
 		</trim>
 	</select>
-	<insert id="addUser">
-		insert into sys_user(id, company_id, dept_id, login_name, password, no, name, email, phone, 
-		mobile, user_type, create_by, create_date, update_by, update_date, remarks, login_flag, photo,status) 
-		values (#{id}, #{company.id},#{dept.id} ,#{loginName}, #{password}, #{no}, #{name}, #{email}, #{tel}, 
-		#{mobile}, #{userType}, #{createBy}, #{createDate}, #{updateBy}, #{updateDate}, #{remarks}, 
-		#{loginFlag}, #{photo},#{status})
+	<insert id="addClass">
+		insert into test_classes(id, class_name,class_master) 
+		values (#{id}, #{className},#{classMaster})
+	</insert>
+	<insert id="addStudents">
+		insert into test_student(id,class_id,no,name,age) values
+		<foreach collection="list" item="item" separator=",">
+		(#{item.id},#{item.classId},#{item.no},#{item.name},#{item.age})
+	   </foreach> 
 	</insert>
 	
-	<update id="saveUser">
-		update sys_user set login_name = #{loginName}, company_id=#{company.id},dept_id=#{dept.id},
-		<if test="password != null and password != ''">
-		password = #{password}, 
-		</if>
-		no = #{no}, name = #{name}, email = #{email}, phone = #{tel}, mobile = #{mobile}, 
-		user_type = #{userType}, update_by = #{updateBy}, update_date = #{updateDate}, 
-		login_flag = #{loginFlag},photo = #{photo},remarks = #{remarks},status = #{status}
+	<update id="updateClass">
+		update test_classes set class_name = #{className}, class_master=#{classMaster}
 		where id = #{id}
 	</update>
+	<update id="updateStudents">
+		<foreach collection="list" item="item" index="index" open="" close="" separator=";">  
+        update test_student
+        <set>no=${item.no}</set>  
+        <set>name=${item.name}</set>
+        <set>age=${item.age}</set>  
+        where id = ${item.id}  
+        </foreach>  
+	</update>
 	
-	<delete id="deleteUser">
-		delete from  sys_user where id in
+	<delete id="deleteClass">
+		delete from test_classes where id in
+		<foreach collection="array" item="id" open="(" close=")" separator=",">#{id}</foreach>
+	</delete>
+	<delete id="deleteStudents">
+		delete from test_student where class_id in
 		<foreach collection="array" item="id" open="(" close=")" separator=",">#{id}</foreach>
 	</delete>
 </mapper>

@@ -26,8 +26,16 @@ public class DemoTableController {
 		return DataMessage.data(service.selectList("listStudent", param));
 	} 
 	@RequestMapping("classes/add")
-	public DataMessage add(Classes classes){
+	public DataMessage add(@RequestBody Classes classes){
 		System.out.println(classes.getStudents().size());
-		return DataMessage.data(service.selectList("listStudent", classes));
+		return service.addClass(classes);
 	} 
+	@RequestMapping("classes/save")
+	public DataMessage save(@RequestBody Classes classes){
+		return service.updateClass(classes);
+	}
+	@RequestMapping("classes/delete")
+	public DataMessage delete(@RequestBody String[] ids){
+		return service.deleteClass(ids);
+	}
 }

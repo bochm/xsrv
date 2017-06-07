@@ -4,7 +4,7 @@ import cn.bx.bframe.entity.BaseBean;
 
 public class Student extends BaseBean{
 	private static final long serialVersionUID = 1L;
-	private long classId;
+	private String classId;
 	private String no;
 	private String name;
 	private int age;
@@ -26,10 +26,10 @@ public class Student extends BaseBean{
 	public void setAge(int age) {
 		this.age = age;
 	}
-	public long getClassId() {
+	public String getClassId() {
 		return classId;
 	}
-	public void setClassId(long classId) {
+	public void setClassId(String classId) {
 		this.classId = classId;
 	}
 	
