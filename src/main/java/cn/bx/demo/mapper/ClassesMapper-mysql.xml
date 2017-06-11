@@ -37,16 +37,19 @@
 	<select id="listStudent" resultType="cn.bx.demo.entity.Student">
 		select id,class_id,no,name,age from test_student
 		<trim prefix="where" prefixOverrides="and">
-			<if test="classId != null and classId != ''">
-			class_id = #{classId}
-			</if>
+		<if test="id != null and id != ''">
+			id = #{id}
+		</if>
+		<if test="classId != null and classId != ''">
+			and class_id = #{classId}
+		</if>
 		</trim>
 	</select>
 	<insert id="addClass">
 		insert into test_classes(id, class_name,class_master) 
 		values (#{id}, #{className},#{classMaster})
 	</insert>
-	<insert id="addStudents">
+	<insert id="addStudents" parameterType="list">
 		insert into test_student(id,class_id,no,name,age) values
 		<foreach collection="list" item="item" separator=",">
 		(#{item.id},#{item.classId},#{item.no},#{item.name},#{item.age})
