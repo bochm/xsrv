@@ -34,7 +34,7 @@ public class RoleController {
 		else
 			return DataMessage.error("保存失败", role);
 	}
-	@RequestMapping(value="save")
+	@RequestMapping(value="edit")
 	@RequiresRoles("role_admin")
 	public @ResponseBody DataMessage saveRole(Role role){
 		if(service.update("save", role) > 0)

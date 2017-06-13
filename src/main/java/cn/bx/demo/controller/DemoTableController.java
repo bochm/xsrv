@@ -30,7 +30,7 @@ public class DemoTableController {
 		System.out.println(classes.getStudents().size());
 		return service.addClass(classes);
 	} 
-	@RequestMapping("classes/save")
+	@RequestMapping("classes/edit")
 	public DataMessage save(@RequestBody Classes classes){
 		return service.updateClass(classes);
 	}

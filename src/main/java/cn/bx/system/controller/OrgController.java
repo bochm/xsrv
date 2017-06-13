@@ -35,8 +35,8 @@ public class OrgController {
 		else
 			return DataMessage.error("组织机构增加失败", org);
 	}
-	@RequestMapping(value="save")
-	@RequiresPermissions("sys:org:save")
+	@RequestMapping(value="edit")
+	@RequiresPermissions("sys:org:edit")
 	public @ResponseBody DataMessage saveOrg(Org org){
 		if(service.save(org) == 1)
 			return DataMessage.success("组织机构保存成功", org);

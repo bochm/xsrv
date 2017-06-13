@@ -38,8 +38,8 @@ public class DictController {
 		else
 			return DataMessage.error("保存失败", dict);
 	}
-	@RequestMapping(value="save")
-	@RequiresPermissions("sys:dict:save")
+	@RequestMapping(value="edit")
+	@RequiresPermissions("sys:dict:edit")
 	public DataMessage saveDict(Dict dict){
 		if(service.update("save", dict) > 0)
 			return DataMessage.success("保存字典数据成功", dict);

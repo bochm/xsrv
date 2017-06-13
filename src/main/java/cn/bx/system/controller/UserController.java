@@ -56,8 +56,8 @@ public class UserController {
 		else
 			return DataMessage.error("保存失败", user);
 	}
-	@RequestMapping(value="save")
-	@RequiresPermissions("sys:user:save")
+	@RequestMapping(value="edit")
+	@RequiresPermissions("sys:user:edit")
 	public  DataMessage saveUser(User user){
 		if(!StringUtils.isEmpty(user.getPassword()))
 			user.setPassword(PasswordUtil.entryptPassword(user.getPassword()));
