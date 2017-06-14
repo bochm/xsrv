@@ -50,7 +50,8 @@ public class UserController {
 	@RequestMapping(value="add")
 	@RequiresPermissions("sys:user:add")
 	public DataMessage addUser(User user){			
-		user.setPassword(PasswordUtil.entryptPassword(user.getPassword()));
+		//user.setPassword(PasswordUtil.entryptPassword(user.getPassword()));
+		user.setPassword(PasswordUtil.entryptMD5Password(user.getLoginName() + user.getPassword()));
 		if(userService.insert("addUser", user) > 0)
 			return DataMessage.success("保存成功", user);
 		else
@@ -60,7 +61,8 @@ public class UserController {
 	@RequiresPermissions("sys:user:edit")
 	public  DataMessage saveUser(User user){
 		if(!StringUtils.isEmpty(user.getPassword()))
-			user.setPassword(PasswordUtil.entryptPassword(user.getPassword()));
+			user.setPassword(PasswordUtil.entryptMD5Password(user.getLoginName() + user.getPassword()));
+		//user.setPassword(PasswordUtil.entryptPassword(user.getPassword()));
 		if(userService.update("saveUser", user) > 0)
 			return DataMessage.success("保存成功", user);
 		else

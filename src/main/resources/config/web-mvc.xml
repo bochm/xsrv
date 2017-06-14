@@ -62,15 +62,16 @@
 	</bean>
     <!-- 跨域访问  allowed-headers设置请求头中必须有的 -->
    	<mvc:cors>
+   		<!-- http://localhost,http://10.20.11.95 -->
 	    <mvc:mapping path="/**"
-	        allowed-origins="http://localhost,http://10.20.11.95"
+	        allowed-origins="*" 
 	        allowed-methods="GET,POST,HEAD" 
 	        allowed-headers="rp_login,rp_token,loginname,password,content-type"
 	        exposed-headers="rp_token"
 	        allow-credentials="true"
 	        max-age="1800"/>
     </mvc:cors>
-    
+    <mvc:resources mapping="/admin/**" location="/static/" cache-period="31536000"/>
     <!-- AOP式方法级权限检查  -->
 	<bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" depends-on="lifecycleBeanPostProcessor">
 		<property name="proxyTargetClass" value="true" />

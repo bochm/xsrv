@@ -1,0 +1,35 @@
+<div class="modal fade" id="system-dict-query">
+<form class="form-horizontal" role="form" id="system-user-query-form" >
+
+	<div class="row">
+		<div class="col-md-6">
+			<div class="form-group">
+			<label class="control-label col-md-3">类型</label>
+			<div class="col-md-9">
+			<select name="type" form-role='select' data-stmid='cn.bx.system.mapper.DictMapper.queryDictTypes' 
+			class="form-control"/>
+			</div>
+			</div>
+		</div>
+		<div class="col-md-6">
+			<div class="form-group">
+			<label class="control-label col-md-4">状态</label>
+			<div class="col-md-8">
+				<input type="checkbox" name="status"  checked class="bs-switch form-control" data-dict-type="on_off">
+			</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-9">
+			<div class="form-group">
+			<label class="control-label col-md-2">区间     </label>
+			<div class="col-md-10">
+				<input type="text" name="dateRange" form-role="dateRange" class="form-control">
+			</div>
+			</div>
+		</div>	
+	</div>
+
+</form>
+</div>
