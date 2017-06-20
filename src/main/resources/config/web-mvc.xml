@@ -66,8 +66,8 @@
 	    <mvc:mapping path="/**"
 	        allowed-origins="*" 
 	        allowed-methods="GET,POST,HEAD" 
-	        allowed-headers="rp_login,rp_token,loginname,password,content-type"
-	        exposed-headers="rp_token"
+	        allowed-headers="rp_login,rp_token,loginname,password,content-type,rpToken"
+	        exposed-headers="rp_token,rpToken"
 	        allow-credentials="true"
 	        max-age="1800"/>
     </mvc:cors>

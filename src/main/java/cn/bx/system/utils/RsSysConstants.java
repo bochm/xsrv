@@ -1,7 +1,7 @@
 package cn.bx.system.utils;
 
 public class RsSysConstants {
-	public static final String RS_PARAM_TOKEN = "rp_token";
+	public static final String RS_PARAM_TOKEN = "rpToken";
     public static final String RS_PARAM_USERNAME = "loginname";
     public static final String RS_PARAM_PASSWORD = "password";
     public static final String RS_PARAM_SID = "rp_sid";

@@ -40,6 +40,7 @@ public class RsAuthcFilter extends AccessControlFilter {
     	//验证Token
     	RsUserToken token = null;
     	//客户端提交的令牌,非登录请求
+    	
     	if(!StringUtils.isEmpty(cToken)){
     		username = httpRequest.getHeader(RsSysConstants.RS_PARAM_USERNAME);
     		token = new RsUserToken(username);
