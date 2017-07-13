@@ -16,16 +16,16 @@
 		</if>
 	</select>
 	<select id="selectAllMenuTree" parameterType="map" resultType="map">
-		select a.id,a.name,a.parent_id,case when isnull(b.menu_id) then 'false' else 'true' end as `checked`,
+		select cast(a.id as char) as id,a.name,cast(a.parent_id as char) as parent_id,case when isnull(b.menu_id) then 'false' else 'true' end as `checked`,
 		case when isnull(b.menu_id) then 'false' else 'true' end as `open`,
 		case when type = '1' then 'fa fa-edit' else 'fa fa-cog' end as icons from sys_menu a
 		left join sys_role_menu b on a.id = b.menu_id and b.role_id = #{roleId}
 	</select>
 	<select id="selectAllUserTree" parameterType="map" resultType="map">
-		select a.id,a.name,a.parent_id,null as checked,null as `open`,
+		select cast(a.id as char) as id,a.name,cast(a.parent_id as char) as parent_id,null as checked,null as `open`,
 		case when type = '1' then 'fa fa-bank' else 'fa fa-sitemap' end as icons from sys_org a
 		union
-		select a.id,a.name,a.dept_id as parent_id,case when isnull(b.user_id) then 'false' else 'true' end as checked,
+		select cast(a.id as char) as id,a.name,cast(a.dept_id as char) as parent_id,case when isnull(b.user_id) then 'false' else 'true' end as checked,
 		case when isnull(b.user_id) then 'false' else 'true' end as `open`,'fa fa-user' icons from sys_user a
 		left join sys_role_user b on a.id = b.user_id and b.role_id = #{roleId}
 	</select>
